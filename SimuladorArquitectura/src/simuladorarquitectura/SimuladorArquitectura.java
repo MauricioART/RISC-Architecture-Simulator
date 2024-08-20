@@ -21,8 +21,8 @@ public class SimuladorArquitectura extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root=FXMLLoader.load(getClass().getResource("./Ventanas/SimuladorFXML.fxml"));
-        Scene scene=new Scene(root);
+        Parent root = FXMLLoader.load(getClass().getResource("./Ventanas/SimuladorFXML.fxml"));
+        Scene scene = new Scene(root);
         stage.setTitle("Simulador Arquitectura Básica Computadora");
         stage.setScene(scene);
         stage.setResizable(false);
