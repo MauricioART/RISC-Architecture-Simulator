@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arturoar.herramientas;
+package com.arturoar.tools;
 
-import com.arturoar.excepciones.WarningException;
+import com.arturoar.exceptions.WarningException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,24 +20,24 @@ import java.util.StringTokenizer;
  */
 public class Assembler {
     
-    private File archivo;
-    private ArrayList<String> instrAltoNivel;
+    private File file;
+    private ArrayList<String> highLevelInstruction;
 
-    public Assembler(String direccion) {
-        this.archivo = new File(direccion);
-        this.instrAltoNivel = new ArrayList<>();
+    public Assembler(String address) {
+        this.file = new File(address);
+        this.highLevelInstruction = new ArrayList<>();
     }
 
-    public Assembler(File archivo) {
-        this.archivo = archivo;
-        this.instrAltoNivel = new ArrayList<>();
+    public Assembler(File file) {
+        this.file = file;
+        this.highLevelInstruction = new ArrayList<>();
     }
     
     public void assemble(ArrayList<String> binaryCode) throws FileNotFoundException, IOException, WarningException{
-        BufferedReader br = new BufferedReader(new FileReader(this.archivo));
+        BufferedReader br = new BufferedReader(new FileReader(this.file));
         String buffer;
         while((buffer = br.readLine()) != null){
-            this.instrAltoNivel.add(buffer);
+            this.highLevelInstruction.add(buffer);
             binaryCode.add(this.decodeInstruction(buffer));
         }
         br.close();
@@ -202,8 +202,8 @@ public class Assembler {
         return binaryNumber;
     }
 
-    public ArrayList<String> getInstrAltoNivel() {
-        return instrAltoNivel;
+    public ArrayList<String> getHighLevelInstruction() {
+        return highLevelInstruction;
     }
     
 }

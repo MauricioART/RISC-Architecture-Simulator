@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arturoar.simuladorarquitecturarisc;
-import com.arturoar.herramientas.GFG;
+package com.arturoar.risc_architecture_simulator;
+import com.arturoar.tools.GFG;
 
 /**
  *

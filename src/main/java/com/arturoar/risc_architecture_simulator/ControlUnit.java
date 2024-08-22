@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arturoar.simuladorarquitecturarisc;
+package com.arturoar.risc_architecture_simulator;
 
-import com.arturoar.excepciones.CodeSegmentViolatedException;
-import com.arturoar.herramientas.GFG;
+import com.arturoar.exceptions.CodeSegmentViolatedException;
+import com.arturoar.tools.GFG;
 
 /**
  *
@@ -14,8 +14,8 @@ import com.arturoar.herramientas.GFG;
  */
 public class ControlUnit {
     
-    private Computer comp;
-    private Instruction currInstruction;
+    private  Computer comp;
+    private  Instruction currInstruction;
     public ControlUnit(Computer comp) {
         this.currInstruction = new Instruction();
         this.comp = comp;
@@ -23,7 +23,7 @@ public class ControlUnit {
     
     
     public void fetch(){
-        comp.IR.setValueAsInstr(comp.memoria.memory[comp.PC.getValue()].getValue());
+        comp.IR.setValueAsInstr(comp.mem.memory[comp.PC.getValue()].getValue());
     }
     
     public void decode(){
@@ -70,53 +70,53 @@ public class ControlUnit {
     public void execute() throws CodeSegmentViolatedException{
         switch(this.currInstruction.getOperation()){
             case 0:
-                comp.alu.add(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.add(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 1:
-                comp.alu.sub(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.sub(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 2:
-                comp.alu.and(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.and(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 3:
-                comp.alu.or(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.or(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 4:
-                comp.alu.xor(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.xor(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 5:
-                comp.alu.not(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()]);
+                comp.alu.not(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()]);
                 break;
             case 6:
-                comp.alu.shiftLeft(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()]);
+                comp.alu.shiftLeft(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()]);
                 break;
             case 7:
-                comp.alu.shiftRight(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()]);
+                comp.alu.shiftRight(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()]);
                 break;
             case 8:
-                comp.alu.load(comp.registrosPG[currInstruction.getDestRgr()],
-                        comp.registrosPG[currInstruction.getSrcRgr1()]);
+                comp.alu.load(comp.registersPG[currInstruction.getDestRgr()],
+                        comp.registersPG[currInstruction.getSrcRgr1()]);
                 break;
             case 9:
-                comp.alu.cmp(comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.cmp(comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 10:
-                comp.alu.store(comp.registrosPG[currInstruction.getSrcRgr1()], 
-                        comp.registrosPG[currInstruction.getSrcRgr2()]);
+                comp.alu.store(comp.registersPG[currInstruction.getSrcRgr1()],
+                        comp.registersPG[currInstruction.getSrcRgr2()]);
                 break;
             case 11:
                 comp.alu.jump(currInstruction.getNum());
@@ -128,7 +128,7 @@ public class ControlUnit {
                 comp.alu.jnz(currInstruction.getNum());
                 break;
             case 14:
-                comp.alu.load12Bit(comp.registrosPG[0], currInstruction.getNum());
+                comp.alu.load12Bit(comp.registersPG[0], currInstruction.getNum());
                 break;
             case 15:
                 comp.alu.nop();

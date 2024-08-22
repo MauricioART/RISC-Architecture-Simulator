@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arturoar.simuladorarquitecturarisc;
+package com.arturoar.risc_architecture_simulator;
 
-import com.arturoar.excepciones.CodeSegmentViolatedException;
-import com.arturoar.excepciones.WarningException;
-import com.arturoar.herramientas.Assembler;
+import com.arturoar.exceptions.CodeSegmentViolatedException;
+import com.arturoar.exceptions.WarningException;
+import com.arturoar.tools.Assembler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,41 +18,44 @@ import java.util.ArrayList;
  * @author arturoar
  */
 public class Computer {
-    protected Memory memoria;
+    protected Memory mem;
     private ControlUnit cu;
     protected ALUnit alu;
-    protected Register registrosPG[];
-    protected Register banderas[], PC, IR, DS;
-    private ArrayList<String> instrAltoNivel;
+    protected Register[] registersPG;
+    protected Register[] flags;
+    protected Register PC;
+    protected Register IR;
+    protected Register DS;
+    private ArrayList<String> highLevelInstruction;
 
     public Computer() {
-        this.memoria = new Memory(8);
+        this.mem = new Memory(8);
         this.cu = new ControlUnit(this);
         this.alu = new ALUnit(this);
-        this.registrosPG = new Register[8];
+        this.registersPG = new Register[8];
         for (int i = 0 ; i < 8 ; i++){
-            this.registrosPG[i] = new Register(16);
+            this.registersPG[i] = new Register(16);
         }
-        this.banderas = new Register[4];
+        this.flags = new Register[4];
         for(int i = 0;i < 4;i++){
-            this.banderas[i] = new Register(1);
+            this.flags[i] = new Register(1);
         }
         this.PC = new Register(8);
         this.IR = new Register(16);
         this.DS = new Register(8);
     }
     
-    public void loadProgramIntoMemory(File archivo) throws IOException, FileNotFoundException, WarningException{
-        Assembler asmblr = new Assembler(archivo);
+    public void loadProgramIntoMemory(File file) throws IOException, FileNotFoundException, WarningException{
+        Assembler assembler = new Assembler(file);
         ArrayList<String> binaryCode = new ArrayList<>();
-        asmblr.assemble(binaryCode);
+        assembler.assemble(binaryCode);
         int numInstr = binaryCode.size();
         for (int i = 0; i < numInstr ; i++){
-            this.memoria.memory[i].setValueAsInstr(Integer.parseInt(binaryCode.remove(0), 2));
+            this.mem.memory[i].setValueAsInstr(Integer.parseInt(binaryCode.remove(0), 2));
         }
         this.DS.setValueAsInstr(numInstr);
-        this.IR.setValueAsInstr(this.memoria.memory[0].getValue());
-        this.instrAltoNivel = asmblr.getInstrAltoNivel();
+        this.IR.setValueAsInstr(this.mem.memory[0].getValue());
+        this.highLevelInstruction = assembler.getHighLevelInstruction();
     }
     
     public void nextInstruction() throws CodeSegmentViolatedException{
@@ -60,10 +63,10 @@ public class Computer {
         cu.decode();
         cu.operandSearch();
         cu.execute();
-        cu.fetch();         //Siguiente instrucción
+        cu.fetch();
     }
-    public void setMemoria(Memory memoria) {
-        this.memoria = memoria;
+    public void setMem(Memory mem) {
+        this.mem = mem;
     }
 
     public void setCu(ControlUnit cu) {
@@ -74,12 +77,12 @@ public class Computer {
         this.alu = alu;
     }
 
-    public void setRegistrosPG(Register[] registrosPG) {
-        this.registrosPG = registrosPG;
+    public void setRegistersPG(Register[] registersPG) {
+        this.registersPG = registersPG;
     }
 
-    public void setBanderas(int value,int index) {
-        this.banderas[index].setValueAsInstr(value); 
+    public void setFlags(int value,int index) {
+        this.flags[index].setValueAsInstr(value);
     }
 
     public void setPC(Register PC) {
@@ -94,8 +97,8 @@ public class Computer {
         this.DS = DS;
     }
 
-    public Memory getMemoria() {
-        return memoria;
+    public Memory getMem() {
+        return mem;
     }
 
     public ControlUnit getCu() {
@@ -106,12 +109,12 @@ public class Computer {
         return alu;
     }
 
-    public Register[] getRegistrosPG() {
-        return registrosPG;
+    public Register[] getRegistersPG() {
+        return registersPG;
     }
 
-    public Register[] getBanderas() {
-        return banderas;
+    public Register[] getFlags() {
+        return flags;
     }
 
 
@@ -127,8 +130,8 @@ public class Computer {
         return DS;
     }
 
-    public ArrayList<String> getInstrAltoNivel() {
-        return instrAltoNivel;
+    public ArrayList<String> getHighLevelInstruction() {
+        return highLevelInstruction;
     }
     
     

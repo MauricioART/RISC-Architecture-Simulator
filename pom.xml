@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.arturoar.simuladorarquitecturarisc/com.arturoar.simuladorarquitecturarisc.SimuladorArquitectura
+                                com.arturoar.simuladorarquitecturarisc/com.arturoar.risc_architecture_simulator.RISC_Simulator
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

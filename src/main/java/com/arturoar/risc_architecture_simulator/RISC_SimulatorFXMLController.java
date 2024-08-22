@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arturoar.simuladorarquitecturarisc;
+package com.arturoar.risc_architecture_simulator;
 
-import com.arturoar.excepciones.CodeSegmentViolatedException;
-import com.arturoar.excepciones.WarningException;
-import com.arturoar.herramientas.GFG;
+import com.arturoar.exceptions.CodeSegmentViolatedException;
+import com.arturoar.exceptions.WarningException;
+import com.arturoar.tools.GFG;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import javafx.stage.FileChooser;
  *
  * @author arturoar
  */
-public class SimuladorFXMLController implements Initializable {
+public class RISC_SimulatorFXMLController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -47,28 +47,28 @@ public class SimuladorFXMLController implements Initializable {
     @FXML
     private Button loadBtn,runBtn,nextBtn,clearBtn;
      @FXML
-    private TableView<MemoryTable> memoriaTV;
+    private TableView<MemoryTable> memoryTV;
 
     @FXML
-    private TableColumn<MemoryTable, String> direccionTC;
+    private TableColumn<MemoryTable, String> addressTC;
 
     @FXML
-    private TableColumn<MemoryTable, String> contenidoBinTC;
+    private TableColumn<MemoryTable, String> contentBinTC;
 
     @FXML
-    private TableColumn<MemoryTable, String> contenidoHexTC;
+    private TableColumn<MemoryTable, String> contentHexTC;
 
     @FXML
-    private TableColumn<MemoryTable, String> contenidoDecTC;
+    private TableColumn<MemoryTable, String> contentDecTC;
 
     @FXML
-    private TableColumn<MemoryTable, String> instruccionTC;
+    private TableColumn<MemoryTable, String> instructionTC;
     
     @FXML
     private AnchorPane anchorPane;
     
     @FXML
-    private Label mensajeError;
+    private Label errorMessage;
     
     private Computer comp;
     
@@ -112,10 +112,10 @@ public class SimuladorFXMLController implements Initializable {
             }
         } catch (Exception ex) {
             this.comp = new Computer();
-            mensajeError.setText(ex.getMessage());
-            mensajeError.setVisible(true);   
+            errorMessage.setText(ex.getMessage());
+            errorMessage.setVisible(true);
             Thread.sleep(3000);
-            mensajeError.setVisible(false);
+            errorMessage.setVisible(false);
             updateScreen();
         }
     }
@@ -125,15 +125,15 @@ public class SimuladorFXMLController implements Initializable {
             this.comp.nextInstruction();
             updateScreen();
         } catch (CodeSegmentViolatedException ex) {
-            mensajeError.setText(ex.getMessage());
-            mensajeError.setVisible(true);
+            errorMessage.setText(ex.getMessage());
+            errorMessage.setVisible(true);
             this.comp = new Computer();
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException ex1) {
                 
             }
-            mensajeError.setVisible(false);
+            errorMessage.setVisible(false);
             updateScreen();
             
         }
@@ -149,21 +149,21 @@ public class SimuladorFXMLController implements Initializable {
         
         
         ObservableList<MemoryTable> rgrMemoria = FXCollections.observableArrayList();
-        int memorySize = comp.getMemoria().getMemorySize();
+        int memorySize = comp.getMem().getMemorySize();
         
         for(int i = 0; i< memorySize; i++){
             if (i < comp.getDS().getValue()){
                 rgrMemoria.add(new MemoryTable(GFG.getBinaryNumber(i, 8),
-                        comp.getMemoria().getMemory()[i].getBinaryValue(),
-                        comp.getMemoria().getMemory()[i].getHexValue(),
-                        comp.getMemoria().getMemory()[i].getDecValue(),
-                        comp.getInstrAltoNivel().get(i)));
+                        comp.getMem().getMemory()[i].getBinaryValue(),
+                        comp.getMem().getMemory()[i].getHexValue(),
+                        comp.getMem().getMemory()[i].getDecValue(),
+                        comp.getHighLevelInstruction().get(i)));
             }
             else{
                 rgrMemoria.add(new MemoryTable(GFG.getBinaryNumber(i, 8),
-                        comp.getMemoria().getMemory()[i].getBinaryValue(),
-                        comp.getMemoria().getMemory()[i].getHexValue(),
-                        comp.getMemoria().getMemory()[i].getDecValue(),
+                        comp.getMem().getMemory()[i].getBinaryValue(),
+                        comp.getMem().getMemory()[i].getHexValue(),
+                        comp.getMem().getMemory()[i].getDecValue(),
                         "-----------"));
             }
             
@@ -172,26 +172,26 @@ public class SimuladorFXMLController implements Initializable {
     }
     public void updateScreen( ){
         //Updating registers
-        ax.setText(comp.getRegistrosPG()[0].getBinaryValue());
-        bx.setText(comp.getRegistrosPG()[1].getBinaryValue());
-        cx.setText(comp.getRegistrosPG()[2].getBinaryValue());
-        dx.setText(comp.getRegistrosPG()[3].getBinaryValue());
-        ex.setText(comp.getRegistrosPG()[4].getBinaryValue());
-        fx.setText(comp.getRegistrosPG()[5].getBinaryValue());
-        gx.setText(comp.getRegistrosPG()[6].getBinaryValue());
-        hx.setText(comp.getRegistrosPG()[7].getBinaryValue());
+        ax.setText(comp.getRegistersPG()[0].getBinaryValue());
+        bx.setText(comp.getRegistersPG()[1].getBinaryValue());
+        cx.setText(comp.getRegistersPG()[2].getBinaryValue());
+        dx.setText(comp.getRegistersPG()[3].getBinaryValue());
+        ex.setText(comp.getRegistersPG()[4].getBinaryValue());
+        fx.setText(comp.getRegistersPG()[5].getBinaryValue());
+        gx.setText(comp.getRegistersPG()[6].getBinaryValue());
+        hx.setText(comp.getRegistersPG()[7].getBinaryValue());
         pc.setText(comp.getPC().getBinaryValue());
         ir.setText(comp.getIR().getBinaryValue());
         cs.setText("00000000");
         ds.setText(comp.getDS().getBinaryValue());
         flags.setText(mergeFlags());
         //Updating memory
-        direccionTC.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-        contenidoBinTC.setCellValueFactory(new PropertyValueFactory<>("binario"));
-        contenidoHexTC.setCellValueFactory(new PropertyValueFactory<>("hexadecimal"));
-        contenidoDecTC.setCellValueFactory(new PropertyValueFactory<>("decimal"));
-        instruccionTC.setCellValueFactory(new PropertyValueFactory<>("instruccion"));
-        memoriaTV.setItems(setMemory());
+        addressTC.setCellValueFactory(new PropertyValueFactory<>("address"));
+        contentBinTC.setCellValueFactory(new PropertyValueFactory<>("binaryFormat"));
+        contentHexTC.setCellValueFactory(new PropertyValueFactory<>("hexadecimalFormat"));
+        contentDecTC.setCellValueFactory(new PropertyValueFactory<>("decimalFormat"));
+        instructionTC.setCellValueFactory(new PropertyValueFactory<>("instruction"));
+        memoryTV.setItems(setMemory());
         if (comp.getPC().getValue() == comp.getDS().getValue()){
             nextBtn.setDisable(true);    
             runBtn.setDisable(true);
@@ -202,10 +202,10 @@ public class SimuladorFXMLController implements Initializable {
     
     private String mergeFlags(){
         String flags = "";
-        flags = flags + comp.getBanderas()[3].getBinaryValue() + "   ";
-        flags = flags + comp.getBanderas()[2].getBinaryValue() + "   ";
-        flags = flags + comp.getBanderas()[1].getBinaryValue() + "   ";
-        flags = flags + comp.getBanderas()[0].getBinaryValue();
+        flags = flags + comp.getFlags()[3].getBinaryValue() + "   ";
+        flags = flags + comp.getFlags()[2].getBinaryValue() + "   ";
+        flags = flags + comp.getFlags()[1].getBinaryValue() + "   ";
+        flags = flags + comp.getFlags()[0].getBinaryValue();
         return flags;
     }
 }

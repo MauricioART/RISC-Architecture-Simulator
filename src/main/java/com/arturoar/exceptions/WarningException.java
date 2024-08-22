@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arturoar.excepciones;
+package com.arturoar.exceptions;
 
 /**
  *
  * @author arturoar
  */
-public class CodeSegmentViolatedException extends Exception{
-    public CodeSegmentViolatedException() {
-        super("Violación del segmento de código");
+public class WarningException extends Exception{
+    public WarningException() {
+        super("Ocurrio algún error al correr el programa");
     }
 }
