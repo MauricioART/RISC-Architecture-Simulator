@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simuladorarquitectura;
+package com.arturoar.simuladorarquitecturarisc;
 
 import javafx.beans.property.SimpleStringProperty;
 

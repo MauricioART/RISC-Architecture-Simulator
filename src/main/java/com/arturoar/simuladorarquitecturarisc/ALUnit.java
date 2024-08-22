@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simuladorarquitectura;
+package com.arturoar.simuladorarquitecturarisc;
 
-import exceptions.CodeSegmentViolatedException;
+import com.arturoar.excepciones.CodeSegmentViolatedException;
 
 /**
  *

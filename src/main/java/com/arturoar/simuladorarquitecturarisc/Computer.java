@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simuladorarquitectura;
+package com.arturoar.simuladorarquitecturarisc;
 
-import exceptions.CodeSegmentViolatedException;
-import exceptions.WarningException;
-import herramientas.Assembler;
+import com.arturoar.excepciones.CodeSegmentViolatedException;
+import com.arturoar.excepciones.WarningException;
+import com.arturoar.herramientas.Assembler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

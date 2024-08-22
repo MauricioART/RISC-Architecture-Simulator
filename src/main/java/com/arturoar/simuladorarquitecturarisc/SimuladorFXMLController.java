@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package simuladorarquitectura.Ventanas;
+package com.arturoar.simuladorarquitecturarisc;
 
-import exceptions.CodeSegmentViolatedException;
-import exceptions.WarningException;
-import herramientas.GFG;
+import com.arturoar.excepciones.CodeSegmentViolatedException;
+import com.arturoar.excepciones.WarningException;
+import com.arturoar.herramientas.GFG;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,9 +27,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import simuladorarquitectura.Computer;
-import simuladorarquitectura.MemoryTable;
 
 /**
  * FXML Controller class
