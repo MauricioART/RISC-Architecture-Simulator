@@ -32,6 +32,8 @@ This is a simulator for a custom RISC (Reduced Instruction Set Computing) archit
 - **Interface**: 
   - A user-friendly JavaFX interface to interact with the simulator and observe the execution of instructions in real-time.
 
+    <img src="images/Simulator.png" width="90%">
+
 ## Setup
 
 1. Clone this repository:
