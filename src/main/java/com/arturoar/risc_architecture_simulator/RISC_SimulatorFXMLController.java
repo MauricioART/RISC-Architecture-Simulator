@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -87,15 +88,22 @@ public class RISC_SimulatorFXMLController implements Initializable {
     private void handleLoad(ActionEvent event) throws IOException, FileNotFoundException, WarningException{
         final FileChooser fc = new FileChooser();
         //fc.getExtensionFilters().add(new ExtensionFilter())
+
+        String projectRoot = System.getProperty("user.dir");
+        File defaultDirectory = Paths.get(projectRoot, "/ProgramExamples/").toFile();
+        
+        // Establecer la ruta inicial
+        fc.setInitialDirectory(defaultDirectory);
+
         File file = fc.showOpenDialog(null);
         if (file != null){
             this.comp.loadProgramIntoMemory(file);
+            // UPDATE REGISTERS AND MEMORY
+            updateScreen();
+            runBtn.setDisable(false);
+            nextBtn.setDisable(false);
+            clearBtn.setDisable(false);
         }
-        // UPDATE REGISTERS AND MEMORY
-        updateScreen();
-        runBtn.setDisable(false);
-        nextBtn.setDisable(false);
-        clearBtn.setDisable(false);
     }
     @FXML
     private void handleRun(ActionEvent event) throws InterruptedException{
