@@ -1,0 +1,48 @@
+LOADI 3
+ADD Bx Ax Bx
+LOADI 10
+ADD Cx Ax Cx
+LOADI 1
+ADD Dx Ax Dx
+XOR Ex Ex Ex
+XOR Ax Ax Ax
+ADD Ax Ax Bx
+SUB Cx Cx Dx
+CMP Cx Ex
+JNZ -3
+ADD Fx Ax Fx
+LOADI 50
+XOR Gx Gx Gx
+ADD Gx Ax Gx
+STORE Gx Fx
+LOADI 4 
+XOR Bx Bx Bx
+ADD Bx Ax Bx
+LOADI 2 
+XOR Cx Cx Cx
+ADD Cx Ax Cx
+XOR Ax Ax Ax
+ADD Ax Ax Bx
+SUB Cx Cx Dx
+CMP Cx Ex
+JNZ -3
+XOR Fx Fx Fx
+ADD Fx Ax Fx
+LOADI 51
+STORE Ax Fx
+XOR Hx Hx Hx
+ADD Hx Ax Hx
+LOADI 1
+XOR Bx Bx Bx
+ADD Bx Ax Bx
+LOADI 52
+STORE Ax Bx 
+LOAD Cx Gx
+LOAD Dx Hx
+XOR Ax Ax Ax
+ADD Ax Cx Dx
+SUB Ax Ax Bx
+XOR Bx Bx Bx
+ADD Bx Ax Bx
+LOADI 53
+STORE Ax Bx

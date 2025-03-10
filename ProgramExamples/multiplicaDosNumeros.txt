@@ -1,0 +1,19 @@
+LOADI 7
+XOR Bx Bx Bx
+ADD Bx Ax Bx
+LOADI 3
+XOR Cx Cx Cx
+ADD Cx Ax Cx
+LOADI 1
+XOR Dx Dx Dx
+ADD Dx Ax Dx
+XOR Ax Ax Ax
+ADD Ax Ax Bx
+SUB Cx Cx Dx
+XOR Ex Ex Ex
+CMP Cx Ex
+JNZ -4
+XOR Fx Fx Fx
+ADD Fx Ax Fx
+LOADI 25
+STORE Ax Fx
