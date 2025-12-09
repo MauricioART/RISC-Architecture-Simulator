@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.arturoar.risc_architecture_simulator;
+
+package com.arturoar.controller;
 
 import com.arturoar.exceptions.CodeSegmentViolatedException;
 import com.arturoar.exceptions.WarningException;
+import com.arturoar.model.Computer;
 import com.arturoar.tools.GFG;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,11 +27,24 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 /**
- * FXML Controller class
- *
+ * FXML Controller for the RISC Architecture Simulator user interface.
+ * 
+ * This controller manages all user interactions and maintains synchronization between
+ * the simulator engine (Computer class) and the JavaFX UI components. It handles:
+ * - File loading: Reading and assembling RISC programs from files
+ * - Program execution: Running programs step-by-step or continuously
+ * - UI updates: Refreshing register and memory displays after each operation
+ * - Error handling: Displaying error messages when code segment violations occur
+ * 
+ * The controller displays:
+ * - 8 general purpose registers (AX, BX, CX, DX, EX, FX, GX, HX) in binary format
+ * - Special registers: Program Counter (PC), Instruction Register (IR), Code Segment (CS), Data Segment (DS)
+ * - Flag registers: Status flags (sign, zero, carry, overflow)
+ * - Memory table: Shows all memory cells with address, binary, hex, decimal, and instruction representations
+ * 
  * @author arturoar
  */
-public class RISC_SimulatorFXMLController implements Initializable {
+public class RISC_SimulatorController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -74,6 +84,14 @@ public class RISC_SimulatorFXMLController implements Initializable {
     private Computer comp;
     
     
+    /**
+     * Initializes the controller and prepares the UI for operation.
+     * Creates a new Computer instance, displays initial register/memory state,
+     * and disables execution buttons until a program is loaded.
+     * 
+     * @param url the location used to resolve relative paths for the root object
+     * @param rb the resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -84,13 +102,23 @@ public class RISC_SimulatorFXMLController implements Initializable {
         clearBtn.setDisable(true);
         
     }    
+    /**
+     * Handles the Load button event.
+     * Opens a file chooser to select an assembly program file, loads it into memory,
+     * and updates the display. Enables execution buttons after successful load.
+     * Defaults to the ProgramExamples directory for file browsing.
+     * 
+     * @param event the action event triggered by clicking the Load button
+     * @throws IOException if an I/O error occurs while reading the file
+     * @throws FileNotFoundException if the selected file is not found
+     * @throws WarningException if a warning occurs during assembly
+     */
     @FXML
     private void handleLoad(ActionEvent event) throws IOException, FileNotFoundException, WarningException{
         final FileChooser fc = new FileChooser();
-        //fc.getExtensionFilters().add(new ExtensionFilter())
 
         String projectRoot = System.getProperty("user.dir");
-        File defaultDirectory = Paths.get(projectRoot, "/ProgramExamples/").toFile();
+        File defaultDirectory = Paths.get(projectRoot, "RISC-Architecture-Simulator/ProgramExamples/").toFile();
         
         // Establecer la ruta inicial
         fc.setInitialDirectory(defaultDirectory);
@@ -105,6 +133,15 @@ public class RISC_SimulatorFXMLController implements Initializable {
             clearBtn.setDisable(false);
         }
     }
+    /**
+     * Handles the Run button event.
+     * Executes the loaded program continuously, updating the display after each instruction.
+     * Pauses 500ms between instructions for visibility. Stops when all instructions complete
+     * or if a code segment violation occurs. Displays error messages and resets the computer on exception.
+     * 
+     * @param event the action event triggered by clicking the Run button
+     * @throws InterruptedException if the execution thread is interrupted
+     */
     @FXML
     private void handleRun(ActionEvent event) throws InterruptedException{
         try {
@@ -127,6 +164,14 @@ public class RISC_SimulatorFXMLController implements Initializable {
             updateScreen();
         }
     }
+    /**
+     * Handles the Next button event.
+     * Executes a single instruction and updates the display.
+     * If a code segment violation occurs, displays an error message, resets the computer,
+     * and updates the display.
+     * 
+     * @param event the action event triggered by clicking the Next button
+     */
     @FXML
     private void handleNext(ActionEvent event){
         try {
@@ -147,12 +192,27 @@ public class RISC_SimulatorFXMLController implements Initializable {
         }
         
     }
+    /**
+     * Handles the Clear button event.
+     * Resets the computer to its initial state and updates the display.
+     * Clears all registers, memory, and flags.
+     * 
+     * @param event the action event triggered by clicking the Clear button
+     */
     @FXML
     private void handleClear(ActionEvent event){
         this.comp = new Computer();
         updateScreen();
     }
     
+    /**
+     * Creates an observable list of memory table rows for UI display.
+     * Includes all memory locations up to the data segment size.
+     * Instructions are labeled; data-only locations show "-----------".
+     * Each row displays address (binary), content (binary, hex, decimal), and instruction.
+     * 
+     * @return an ObservableList of MemoryTable objects representing all memory cells
+     */
     public ObservableList<MemoryTable> setMemory(){
         
         
@@ -178,6 +238,12 @@ public class RISC_SimulatorFXMLController implements Initializable {
         }
         return rgrMemoria;
     }
+    /**
+     * Updates the entire UI display with current simulator state.
+     * Refreshes all register displays (in binary format), special registers (PC, IR, CS, DS),
+     * flag status, and memory table contents. Disables execution buttons when program
+     * counter reaches the end of the program.
+     */
     public void updateScreen( ){
         //Updating registers
         ax.setText(comp.getRegistersPG()[0].getBinaryValue());
@@ -208,6 +274,12 @@ public class RISC_SimulatorFXMLController implements Initializable {
         
     }
     
+    /**
+     * Formats the four flag registers into a display string.
+     * Combines flag values (sign, zero, carry, overflow) with spacing for readability.
+     * 
+     * @return a formatted string of flag values separated by spaces
+     */
     private String mergeFlags(){
         String flags = "";
         flags = flags + comp.getFlags()[3].getBinaryValue() + "   ";

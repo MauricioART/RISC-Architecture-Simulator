@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arturoar.risc_architecture_simulator.RISC_SimulatorFXMLController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arturoar.controller.RISC_SimulatorController">
    <Pane layoutY="-2.0" prefHeight="95.0" prefWidth="900.0" style="-fx-background-color: #006d77;" />
    <Button fx:id="runBtn" layoutX="510.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleRun" prefHeight="44.0" prefWidth="58.0" text="Run" />
    <VBox layoutX="63.0" layoutY="128.0" prefHeight="202.0" prefWidth="155.0" style="-fx-border-color: #006d77;">

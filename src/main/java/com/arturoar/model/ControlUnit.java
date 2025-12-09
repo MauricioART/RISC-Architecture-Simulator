@@ -1,35 +1,74 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.arturoar.risc_architecture_simulator;
+package com.arturoar.model;
 
 import com.arturoar.exceptions.CodeSegmentViolatedException;
 import com.arturoar.tools.GFG;
 
 /**
- *
+ * Control Unit (CU) for the RISC architecture simulator.
+ * 
+ * The Control Unit orchestrates the instruction execution cycle (Fetch-Decode-Operand Search-Execute).
+ * It manages:
+ * - Fetching instructions from memory into the Instruction Register (IR)
+ * - Decoding the operation code from the instruction
+ * - Extracting operand information (register indices, immediate values) based on instruction format
+ * - Dispatching the decoded instruction to the ALU for execution
+ * 
+ * Instruction formats supported:
+ * - Three-register operations (opcodes 0-4): ADD, SUB, AND, OR, XOR
+ * - Two-register operations (opcodes 5-8): NOT, SHIFTL, SHIFTR, LOAD
+ * - Comparison and store operations (opcodes 9-10): CMP, STORE
+ * - Jump operations (opcodes 11-13): JUMP, JZ, JNZ with 8-bit signed offsets
+ * - Load immediate (opcode 14): LOAD 12-bit immediate value
+ * - No operation (opcode 15): NOP
+ * 
  * @author arturoar
  */
 public class ControlUnit {
     
     private  Computer comp;
     private  Instruction currInstruction;
+    
+    /**
+     * Initializes the Control Unit with a reference to the computer system.
+     * Creates a new instruction object to store the current decoded instruction.
+     * 
+     * @param comp the Computer instance this control unit belongs to
+     */
     public ControlUnit(Computer comp) {
         this.currInstruction = new Instruction();
         this.comp = comp;
     }
     
     
+    /**
+     * Fetch stage: Loads the instruction at the current program counter address from memory
+     * into the Instruction Register (IR).
+     * This is the first step of the instruction execution cycle.
+     */
     public void fetch(){
         comp.IR.setValueAsInstr(comp.mem.memory[comp.PC.getValue()].getValue());
     }
     
+    /**
+     * Decode stage: Extracts the operation code (opcode) from the Instruction Register.
+     * The opcode is located in the first 4 bits of the instruction and identifies which operation to perform.
+     * This is the second step of the instruction execution cycle.
+     */
     public void decode(){
         this.currInstruction.setOperation(Integer.parseInt(comp.IR.getBinaryValue().substring(0, 4),2));
     }
     
+    /**
+     * Operand Search stage: Extracts operand information from the instruction based on its type.
+     * Different instruction formats use different bit ranges:
+     * - Three-register ops (0-4): destination (bits 4-6), src1 (7-9), src2 (10-12)
+     * - Two-register ops (5-8): destination (bits 4-6), src1 (7-9)
+     * - Comparison/store (9-10): src1 (7-9), src2 (10-12)
+     * - Jump operations (11-13): 8-bit signed offset (bits 8-15)
+     * - Load immediate (14): 12-bit signed immediate (bits 4-15)
+     * - NOP (15): No operands needed
+     * This is the third step of the instruction execution cycle.
+     */
     public void operandSearch(){
         if (this.currInstruction.getOperation() < 5){
             this.currInstruction.setDestRgr(Integer.parseInt(comp.IR.getBinaryValue().substring(4, 7),2));
@@ -67,6 +106,19 @@ public class ControlUnit {
         }
     }
     
+    /**
+     * Execute stage: Dispatches the current instruction to the ALU based on its opcode.
+     * Calls the appropriate ALU method with the extracted operands.
+     * Supported operations:
+     * - 0: ADD, 1: SUB, 2: AND, 3: OR, 4: XOR
+     * - 5: NOT, 6: SHIFT LEFT, 7: SHIFT RIGHT
+     * - 8: LOAD, 9: COMPARE, 10: STORE
+     * - 11: JUMP, 12: JUMP IF ZERO, 13: JUMP IF NOT ZERO
+     * - 14: LOAD 12-BIT IMMEDIATE, 15: NO OPERATION
+     * This is the fourth step of the instruction execution cycle.
+     * 
+     * @throws CodeSegmentViolatedException if memory access attempts to read outside the valid code/data segment
+     */
     public void execute() throws CodeSegmentViolatedException{
         switch(this.currInstruction.getOperation()){
             case 0:
