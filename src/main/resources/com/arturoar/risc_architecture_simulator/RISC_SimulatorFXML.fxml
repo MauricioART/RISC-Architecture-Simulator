@@ -4,72 +4,110 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arturoar.controller.RISC_SimulatorController">
-   <Pane layoutY="-2.0" prefHeight="95.0" prefWidth="900.0" style="-fx-background-color: #006d77;" />
-   <Button fx:id="runBtn" layoutX="510.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleRun" prefHeight="44.0" prefWidth="58.0" text="Run" />
-   <VBox layoutX="63.0" layoutY="128.0" prefHeight="202.0" prefWidth="155.0" style="-fx-border-color: #006d77;">
-      <TextField fx:id="ax" disable="true" prefHeight="26.0" prefWidth="114.0" />
-      <TextField fx:id="bx" disable="true" />
-      <TextField fx:id="cx" disable="true" />
-      <TextField fx:id="dx" disable="true" />
-      <TextField fx:id="ex" disable="true" />
-      <TextField fx:id="fx" disable="true" />
-      <TextField fx:id="gx" disable="true" />
-      <TextField fx:id="hx" disable="true" />
-   </VBox>
-   <Pane layoutX="235.0" layoutY="127.0" prefHeight="422.0" prefWidth="639.0" style="-fx-border-color: #006d77;">
-      <TableView fx:id="memoryTV" layoutX="2.0" layoutY="3.0" prefHeight="415.0" prefWidth="633.0">
-         <columns>
-            <TableColumn fx:id="addressTC" prefWidth="96.33334350585938" text="Mem Address" />
-            <TableColumn fx:id="contentBinTC" prefWidth="176.66668701171875" text="Binary Content" />
-            <TableColumn fx:id="contentHexTC" prefWidth="116.33331298828125" text="Hexadecimal" />
-            <TableColumn fx:id="contentDecTC" prefWidth="89.6666259765625" text="Decimal" />
-            <TableColumn fx:id="instructionTC" prefWidth="145.3333740234375" text="Instruction" />
-         </columns>
-      </TableView>
-   </Pane>
-   <Label layoutX="35.0" layoutY="135.0" text="Ax" />
-   <Label layoutX="35.0" layoutY="161.0" text="Bx" />
-   <Label layoutX="35.0" layoutY="187.0" text="Cx" />
-   <Label layoutX="35.0" layoutY="213.0" text="Dx" />
-   <Label layoutX="35.0" layoutY="240.0" text="Ex" />
-   <Label layoutX="35.0" layoutY="267.0" text="Fx" />
-   <Label layoutX="35.0" layoutY="291.0" text="Gx" />
-   <Label layoutX="35.0" layoutY="318.0" text="Hx" />
-   <Label layoutX="71.0" layoutY="107.0" text="General Purpose Registers" />
-   <VBox layoutX="63.0" layoutY="367.0" prefHeight="104.0" prefWidth="155.0" style="-fx-border-color: #006d77;">
-      <TextField fx:id="pc" disable="true" />
-      <TextField fx:id="ir" disable="true" />
-      <TextField fx:id="cs" disable="true" />
-      <TextField fx:id="ds" disable="true" />
-   </VBox>
-   <Label layoutX="35.0" layoutY="368.0" text="PC" />
-   <Label layoutX="35.0" layoutY="394.0" text="IR" />
-   <Label layoutX="35.0" layoutY="423.0" text="CS" />
-   <Label layoutX="35.0" layoutY="450.0" text="DS" />
-   <Label layoutX="102.0" layoutY="483.0" text="Flags register" />
-   <VBox layoutX="90.0" layoutY="508.0" prefHeight="26.0" prefWidth="95.0" style="-fx-border-color: black;">
-      <TextField fx:id="flags" disable="true" prefHeight="26.0" prefWidth="109.0" />
-   </VBox>
-   <Button fx:id="loadBtn" layoutX="417.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleLoad" prefHeight="44.0" prefWidth="58.0" text="Load" />
-   <Button fx:id="nextBtn" layoutX="605.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleNext" prefHeight="44.0" prefWidth="58.0" text="Next" />
-   <Label layoutX="46.0" layoutY="33.0" text="RISC Architecture Simulator" textFill="WHITE">
-      <font>
-         <Font name="Chilanka Regular" size="24.0" />
-      </font>
-   </Label>
-   <Button fx:id="clearBtn" layoutX="699.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="44.0" prefWidth="58.0" text="Clear" />
-   <Label layoutX="694.0" layoutY="567.0" text="By Mauricio A. Aguilera Roa" />
-   <Label layoutX="100.0" layoutY="544.0" text="S   Z   O   C" />
-   <Label fx:id="errorMessage" layoutX="267.0" layoutY="564.0" text="Mensaje Error" textFill="#c90f0f" visible="false">
-      <font>
-         <Font name="DejaVu Sans Mono Bold" size="13.0" />
-      </font>
-   </Label>
-</AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.arturoar.controller.RISC_SimulatorController" styleClass="debugger"
+            stylesheets="@debugger.css">
+    <top>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="toolbar">
+                <VBox spacing="2" minWidth="190" HBox.hgrow="ALWAYS">
+                    <Label text="Simulador RISC" styleClass="app-title" />
+                    <Label fx:id="programName" styleClass="muted" maxWidth="380" />
+                </VBox>
+                <Button fx:id="loadBtn" text="Cargar programa" onAction="#handleLoad" />
+                <Button fx:id="clearBtn" text="Limpiar" onAction="#handleClear" />
+                <Button fx:id="runBtn" text="Ejecutar" onAction="#handleRun" minWidth="84" />
+                <Button fx:id="nextBtn" text="Paso" onAction="#handleNext" styleClass="step-button" />
+            </HBox>
+            <Label fx:id="status" styleClass="status" maxWidth="Infinity" wrapText="true" />
+        </VBox>
+    </top>
+    <center>
+        <HBox spacing="14" styleClass="workspace">
+            <VBox styleClass="panel" HBox.hgrow="ALWAYS" minWidth="0">
+                <HBox alignment="CENTER_LEFT" spacing="8" styleClass="panel-heading">
+                    <Label text="Programa y memoria" styleClass="panel-title" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label text="Direcciones hexadecimales" styleClass="muted" />
+                </HBox>
+                <TableView fx:id="memoryTV" VBox.vgrow="ALWAYS" accessibleText="Programa y memoria">
+                    <columns>
+                        <TableColumn fx:id="addressTC" text="Dir." prefWidth="65" minWidth="58"
+                                     sortable="false" />
+                        <TableColumn fx:id="instructionTC" text="Instrucción" prefWidth="147" minWidth="125"
+                                     sortable="false" />
+                        <TableColumn fx:id="contentBinTC" text="Binario" prefWidth="160" minWidth="148"
+                                     sortable="false" />
+                        <TableColumn fx:id="contentHexTC" text="Hex" prefWidth="63" minWidth="56"
+                                     sortable="false" />
+                        <TableColumn fx:id="contentDecTC" text="Decimal" prefWidth="80" minWidth="74"
+                                     sortable="false" />
+                    </columns>
+                </TableView>
+            </VBox>
+            <VBox styleClass="panel" minWidth="230" prefWidth="230">
+                <HBox alignment="CENTER_LEFT" spacing="8" styleClass="panel-heading">
+                    <Label text="Estado de la CPU" styleClass="panel-title" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label text="Hex" styleClass="muted" />
+                </HBox>
+                <VBox spacing="10" styleClass="cpu-body">
+                    <Label text="Registros generales" styleClass="section-title" />
+                    <GridPane vgap="4" hgap="10">
+                        <Label text="Ax" />
+                        <Label fx:id="ax" styleClass="register-value" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label text="Bx" GridPane.rowIndex="1" />
+                        <Label fx:id="bx" styleClass="register-value" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Label text="Cx" GridPane.rowIndex="2" />
+                        <Label fx:id="cx" styleClass="register-value" GridPane.rowIndex="2" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Label text="Dx" GridPane.rowIndex="3" />
+                        <Label fx:id="dx" styleClass="register-value" GridPane.rowIndex="3" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Label text="Ex" GridPane.rowIndex="4" />
+                        <Label fx:id="ex" styleClass="register-value" GridPane.rowIndex="4" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Label text="Fx" GridPane.rowIndex="5" />
+                        <Label fx:id="fx" styleClass="register-value" GridPane.rowIndex="5" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Label text="Gx" GridPane.rowIndex="6" />
+                        <Label fx:id="gx" styleClass="register-value" GridPane.rowIndex="6" GridPane.columnIndex="1" maxWidth="Infinity" />
+                        <Label text="Hx" GridPane.rowIndex="7" />
+                        <Label fx:id="hx" styleClass="register-value" GridPane.rowIndex="7" GridPane.columnIndex="1" maxWidth="Infinity" />
+                    </GridPane>
+                    <Label text="Registros de control" styleClass="section-title" />
+                    <GridPane hgap="7" vgap="4">
+                        <Label text="PC" />
+                        <Label fx:id="pc" styleClass="register-value" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label text="IR" GridPane.columnIndex="2" />
+                        <Label fx:id="ir" styleClass="register-value" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Label text="CS" GridPane.rowIndex="1" />
+                        <Label fx:id="cs" styleClass="register-value" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity">
+                            <tooltip><Tooltip text="Binario: 00000000 · Decimal: 0" /></tooltip>
+                        </Label>
+                        <Label text="DS" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+                        <Label fx:id="ds" styleClass="register-value" GridPane.rowIndex="1" GridPane.columnIndex="3" maxWidth="Infinity" />
+                    </GridPane>
+                    <Label text="Banderas" styleClass="section-title" />
+                    <HBox spacing="6">
+                        <Label fx:id="sign" styleClass="flag" accessibleHelp="Bandera de signo">
+                            <tooltip><Tooltip text="Signo" /></tooltip>
+                        </Label>
+                        <Label fx:id="zero" styleClass="flag" accessibleHelp="Bandera de cero">
+                            <tooltip><Tooltip text="Cero" /></tooltip>
+                        </Label>
+                        <Label fx:id="overflow" styleClass="flag" accessibleHelp="Bandera de desbordamiento">
+                            <tooltip><Tooltip text="Desbordamiento" /></tooltip>
+                        </Label>
+                        <Label fx:id="carry" styleClass="flag" accessibleHelp="Bandera de acarreo">
+                            <tooltip><Tooltip text="Acarreo" /></tooltip>
+                        </Label>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

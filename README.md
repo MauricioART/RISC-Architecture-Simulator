@@ -29,25 +29,34 @@ This is a simulator for a custom RISC (Reduced Instruction Set Computing) archit
 - **Program Counter Management**: 
   - The simulator tracks the program counter and updates it after every instruction execution.
 
-- **Interface**: 
-  - A user-friendly JavaFX interface to interact with the simulator and observe the execution of instructions in real-time.
-
-    <img src="images/Simulator.png" width="90%">
-
 ## Setup
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/MauricioART/RISC-Architecture-Simulator.git
-   ```
+Install JDK 22 and point `JAVA_HOME` to it. Clone the repository and open its directory.
 
-2. Compile and run the project:
-   - You can use your favorite IDE (e.g., IntelliJ IDEA, Eclipse) to import the project and run it.
-   - Alternatively, use Maven or Gradle to manage dependencies and build the project from the command line.
+```bash
+git clone https://github.com/MauricioART/RISC-Architecture-Simulator.git
+cd RISC-Architecture-Simulator
+```
 
-## Usage
+On Windows, launch the simulator with the Maven Wrapper.
 
-Once the simulator is running, you can input instructions into the interface and observe the effects on the CPU state, including registers, flags, and memory. The operations performed by the simulator are similar to the ones defined in the `ALUnit` class. Here's an overview of the methods available:
+```powershell
+.\mvnw.cmd javafx:run
+```
+
+On macOS or Linux, run `sh ./mvnw javafx:run`. If Maven is already installed, use `mvn javafx:run` on any platform. The first run needs network access to download any missing build dependencies.
+
+## Using the debugger
+
+<img src="images/Simulator.png" width="90%" alt="RISC debugger showing the next instruction in memory and the CPU registers and flags that changed">
+
+1. Select **Cargar programa** to open an assembly text file. Try `ProgramExamples/multiplicaDosNumeros.txt`. Loading a program starts a new simulation.
+2. Select **Paso** to execute one instruction. The status bar shows the program counter and the next instruction. The memory table follows that instruction and shows each word in binary, hexadecimal, and decimal.
+3. Check **Estado de la CPU** for the general-purpose registers, control registers, and flags. Values that changed during the last step are highlighted. Hover over a hexadecimal register value to see its binary and decimal forms.
+4. Select **Ejecutar** to run continuously or **Pausar** to inspect the current state and resume later. If execution triggers a code segment violation, the status bar shows the error and leaves the CPU and memory visible for inspection.
+5. Select **Limpiar** to unload the program and reset the CPU and memory.
+
+## Instruction reference
 
 ### ALU Methods
 

@@ -27,8 +27,7 @@ public class RISC_Simulator extends Application{
     /**
      * Initializes and displays the main application window.
      * Loads the FXML user interface configuration from RISC_SimulatorFXML.fxml
-     * and sets up the primary stage with fixed dimensions (900x600 pixels).
-     * The window is non-resizable to maintain consistent UI layout.
+     * and sets up the resizable debugger window.
      * 
      * @param stage the primary stage for this application
      * @throws Exception if the FXML file cannot be loaded
@@ -36,10 +35,11 @@ public class RISC_Simulator extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(RISC_Simulator.class.getResource("RISC_SimulatorFXML.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
-        stage.setTitle("Basic RISC Architecture Simulator");
+        Scene scene = new Scene(fxmlLoader.load(), 980, 650);
+        stage.setTitle("Simulador RISC");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setMinWidth(870);
+        stage.setMinHeight(575);
         stage.show();
     }
     

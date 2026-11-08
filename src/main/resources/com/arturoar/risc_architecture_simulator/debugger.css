@@ -1,0 +1,185 @@
+.debugger {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-color: #f3f7fa;
+    -fx-accent: #08736b;
+    -fx-focus-color: #08736b;
+    -fx-faint-focus-color: #08736b22;
+}
+
+.debugger .label {
+    -fx-text-fill: #182c38;
+}
+
+.debugger .toolbar, .debugger .panel {
+    -fx-background-color: white;
+}
+
+.debugger .toolbar {
+    -fx-padding: 15 20;
+    -fx-border-color: transparent transparent #d5e1e8 transparent;
+}
+
+.debugger .app-title {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+}
+
+.debugger .muted {
+    -fx-text-fill: #4e6371;
+    -fx-font-size: 12px;
+}
+
+.debugger .button {
+    -fx-padding: 6 12;
+    -fx-min-height: 34px;
+    -fx-background-color: #d5e1e8, white;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 7, 6;
+    -fx-text-fill: #182c38;
+}
+
+.debugger .button:hover {
+    -fx-background-color: #b1c4cd, #f0f6f8;
+}
+
+.debugger .step-button {
+    -fx-background-color: #08736b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.debugger .step-button:hover {
+    -fx-background-color: #065b55;
+}
+
+.debugger .button:focused {
+    -fx-border-color: #08736b;
+    -fx-border-radius: 8;
+    -fx-border-insets: -3;
+}
+
+.debugger .status {
+    -fx-padding: 9 20;
+    -fx-background-color: #e7f3f1;
+    -fx-border-color: transparent transparent #cbe1de transparent;
+    -fx-text-fill: #214d49;
+}
+
+.debugger .status:error {
+    -fx-background-color: #fcebe9;
+    -fx-border-color: transparent transparent #eac4bf transparent;
+    -fx-text-fill: #882d26;
+}
+
+.debugger .workspace {
+    -fx-padding: 16;
+}
+
+.debugger .panel {
+    -fx-background-radius: 9;
+    -fx-border-radius: 9;
+    -fx-border-color: #d5e1e8;
+}
+
+.debugger .panel-heading {
+    -fx-padding: 11 12;
+    -fx-border-color: transparent transparent #d5e1e8 transparent;
+}
+
+.debugger .panel-title {
+    -fx-font-weight: bold;
+}
+
+.debugger .cpu-body {
+    -fx-padding: 12;
+}
+
+.debugger .section-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: #4e6371;
+}
+
+.debugger .register-value, .debugger .flag, .debugger .table-cell {
+    -fx-font-family: "Consolas";
+}
+
+.debugger .register-value {
+    -fx-alignment: center-right;
+    -fx-padding: 3 7;
+    -fx-background-radius: 5;
+    -fx-background-color: #f3f7fa;
+}
+
+.debugger .flag {
+    -fx-padding: 4 6;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #d5e1e8;
+}
+
+.debugger .flag:active {
+    -fx-border-color: #77aaa4;
+    -fx-font-weight: bold;
+    -fx-text-fill: #07554e;
+}
+
+.debugger .register-value:changed, .debugger .flag:changed {
+    -fx-background-color: #d5eeea;
+    -fx-text-fill: #07554e;
+    -fx-font-weight: bold;
+}
+
+.debugger .table-view {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0 0 9 9;
+    -fx-padding: 0 0 4 0;
+    -fx-table-cell-border-color: transparent;
+}
+
+.debugger .table-view .column-header-background,
+.debugger .table-view .column-header,
+.debugger .table-view .filler {
+    -fx-background-color: #edf3f7;
+}
+
+.debugger .column-header .label {
+    -fx-alignment: center-left;
+    -fx-padding: 6 9;
+    -fx-font-size: 12px;
+    -fx-text-fill: #4e6371;
+}
+
+.debugger .table-row-cell {
+    -fx-background-color: #e4ecf0, white;
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+.debugger .table-row-cell:odd {
+    -fx-background-color: #e4ecf0, #f9fbfc;
+}
+
+.debugger .table-row-cell:empty {
+    -fx-background-color: white;
+}
+
+.debugger .table-row-cell:selected {
+    -fx-background-color: #b6c9d5, #e4eef5;
+}
+
+.debugger .table-cell {
+    -fx-padding: 6 9;
+    -fx-text-fill: #182c38;
+}
+
+.debugger .table-row-cell:current {
+    -fx-background-color: #08736b, #d5eeea;
+    -fx-background-insets: 0, 0 0 0 4;
+}
+
+.debugger .table-row-cell:current .table-cell {
+    -fx-text-fill: #07554e;
+    -fx-font-weight: bold;
+}
